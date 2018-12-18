@@ -3,14 +3,17 @@ package org.ch.message.common.util;
 import java.util.HashMap;
 
 import org.json.simple.JSONObject;
-import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 
-@Component
+
 public class MessageUtil {
 
+	private static final Logger logger = LoggerFactory.getLogger(MessageUtil.class);
+	
 	private final static String api_key = "NCSAL3MLMSJF0BWC";
 	private final static String api_secret = "O9M9OW3XPEY4MGCAEYYJOLY4QGGYAYB2";
 	
@@ -59,10 +62,18 @@ public class MessageUtil {
 	}
 
 	public static JSONObject send(String type, String to, String from, String text, String datetime) {
+		
 		JSONObject obj = null;
 		
 		Message coolsms = new Message(api_key, api_secret);
 
+		logger.debug(">>>>>>>>>>>>> message start<<<<<<<<<<<<");
+		logger.debug("to", to);
+	    logger.debug("from", from);
+	    logger.debug("type", type);
+	    logger.debug("text", text);
+	    logger.debug(">>>>>>>>>>>>> message finish<<<<<<<<<<<<");
+		
 	    // 4 params(to, from, type, text) are mandatory. must be filled
 	    HashMap<String, String> params = new HashMap<String, String>();
 	    params.put("to", to);
@@ -78,10 +89,10 @@ public class MessageUtil {
 	    
 	    try {
 	      obj = (JSONObject) coolsms.send(params);
-	      System.out.println(obj.toString());
+	      logger.debug(obj.toString());
 	    } catch (CoolsmsException e) {
-	      System.out.println(e.getMessage());
-	      System.out.println(e.getCode());
+	    	logger.error(e.getMessage());
+	    	logger.error(e.getCode()+"");
 	    }
 	    
 		return obj;
