@@ -1,4 +1,4 @@
-package org.ch.message;
+package org.ch.message.common.util;
 
 import org.ch.message.common.util.MessageUtil;
 import org.json.simple.JSONObject;

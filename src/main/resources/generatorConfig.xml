@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+  <classPathEntry location="C:\\Users\\USER\\.m2\\repository\\mysql\\mysql-connector-java\\\\8.0.13\\mysql-connector-java-8.0.13.jar"/>
+  
+	<context id="context1">
+     
+    <jdbcConnection connectionURL="jdbc:mysql://52ch.org:3306/message?characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;useSSL=false" driverClass="com.mysql.cj.jdbc.Driver" password="jwchjwch" userId="message" >
+      <property name="nullCatalogMeansCurrent" value="true" />
+    </jdbcConnection>
+    
+    <javaModelGenerator targetPackage="org.ch.message.model" targetProject="messages" />
+    <sqlMapGenerator targetPackage="org.ch.message.mapper" targetProject="messages" />
+    <javaClientGenerator targetPackage="org.ch.message.mapper" targetProject="messages" type="XMLMAPPER" />
+
+    <!-- 
+    <table  tableName="member" domainObjectName="Member" enableSelectByPrimaryKey="true" enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+        <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+    <table  tableName="m_group" domainObjectName="MGroup" enableSelectByPrimaryKey="true" enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+        <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+    <table  tableName="calendar" domainObjectName="Calendar" enableSelectByPrimaryKey="true" enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+        <property name="useActualColumnNames" value="false"/>
+    </table>
+    
+    <table  tableName="message" domainObjectName="Message" enableSelectByPrimaryKey="true" enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+        <property name="useActualColumnNames" value="false"/>
+    </table>
+    <table  tableName="message_schedule" domainObjectName="Schedule" enableSelectByPrimaryKey="true" enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+        <property name="useActualColumnNames" value="false"/>
+    </table>
+     -->
+    
+        <table  tableName="message" domainObjectName="Message" enableSelectByPrimaryKey="true" enableSelectByExample="false" enableDeleteByExample="false" enableCountByExample="false" enableUpdateByExample="false">
+        <property name="useActualColumnNames" value="false"/>
+    </table>
+ 	
+  </context>
+</generatorConfiguration>

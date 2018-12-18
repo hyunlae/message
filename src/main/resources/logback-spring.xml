@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+               xsi:schemaLocation="http://ch.qos.logback/xml/ns/logback http://ch.qos.logback/xml/ns/logback/logback.xsd">
+
+	<property name="LOG_DIR" value="/var/log/apps/messages" />
+	<property name="LOG_FILE_NAME" value="messages" />
+	<property name="DEFAULT_PACKAGE" value="org.ch.message" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </layout>
+    </appender>
+	 
+	 <appender name="TIME_BASED_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <file>${LOG_DIR}/${LOG_FILE_NAME}.log</file>
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">        
+	        <!-- daily rollover -->
+	        <fileNamePattern>${LOG_DIR}/${LOG_FILE_NAME}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+	        <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+	        <maxHistory>30</maxHistory>
+	    </rollingPolicy>
+	 
+	    <encoder>
+	        <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+	    </encoder>
+	</appender>   
+	
+	<appender name="TIME_BASED_ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <file>${LOG_DIR}/${LOG_FILE_NAME}_error.log</file>
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">        
+	        <!-- daily rollover -->
+	        <fileNamePattern>${LOG_DIR}/${LOG_FILE_NAME}_error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+	        <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+	        <maxHistory>30</maxHistory>
+	    </rollingPolicy>
+	 
+	    <encoder>
+	        <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+	    </encoder>
+	</appender> 
+
+	<logger name="java.sql.Connection" level="ERROR" additivity="false">
+		<appender-ref ref="TIME_BASED_ERROR_FILE" />
+	</logger>
+	<logger name="java.sql.PreparedStatement" level="ERROR" additivity="false">
+		<appender-ref ref="TIME_BASED_ERROR_FILE" />
+	</logger>
+	<logger name="java.sql.ResultSet" level="ERROR" additivity="false">
+		<appender-ref ref="TIME_BASED_ERROR_FILE" />
+	</logger>
+	<logger name="${DEFAULT_PACKAGE}" level="ERROR" additivity="false">
+		<appender-ref ref="TIME_BASED_ERROR_FILE" />
+		<appender-ref ref="STDOUT" />
+	</logger>
+	<logger name="org.springframework" level="ERROR" additivity="false">
+        <appender-ref ref="TIME_BASED_ERROR_FILE" />
+    </logger>
+    	   
+    	   
+	<logger name="java.sql.Connection" level="TRACE" additivity="false">
+		<appender-ref ref="TIME_BASED_FILE" />
+	</logger>
+	<logger name="java.sql.PreparedStatement" level="TRACE" additivity="false">
+		<appender-ref ref="TIME_BASED_FILE" />
+	</logger>
+	<logger name="java.sql.ResultSet" level="TRACE" additivity="false">
+		<appender-ref ref="TIME_BASED_FILE" />
+	</logger>
+	<logger name="${DEFAULT_PACKAGE}" level="TRACE" additivity="false">
+		<appender-ref ref="TIME_BASED_FILE" />
+		<appender-ref ref="STDOUT" />
+	</logger>
+	<logger name="org.springframework" level="DEBUG" additivity="false">
+        <appender-ref ref="TIME_BASED_FILE" />
+    </logger>
+	<logger name="org.apache.tomcat" level="DEBUG" additivity="false">
+        <appender-ref ref="TIME_BASED_FILE" />
+        
+    </logger>
+    <root level="TRACE" additivity="false">
+        <!-- <appender-ref ref="TIME_BASED_FILE" /> -->
+        <appender-ref ref="STDOUT" />
+    </root>
+    
+</configuration>
