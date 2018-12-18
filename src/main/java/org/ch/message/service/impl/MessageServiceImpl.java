@@ -97,7 +97,7 @@ public class MessageServiceImpl implements MessageService {
 
 	}
 
-	@Scheduled(fixedDelay = 10000)
+	@Scheduled(fixedDelay = 5000)
 	public void batchSend() {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
