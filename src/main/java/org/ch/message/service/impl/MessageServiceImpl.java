@@ -114,13 +114,44 @@ public class MessageServiceImpl implements MessageService {
 
 			String type = message.getMessageType();
 			JSONObject result = MessageUtil.send(type, to, FROM, content, formattedReservedTime);
+			String groupId = (String) result.get("group_id");
 			logger.debug("result: ", result.toString());
 			
 			Message record = new Message();
 			record.setMessasgeSeq(message.getMessasgeSeq());
 			record.setState(1);
 			
-			int res = messageMapper.updateByPrimaryKey(record);
+			int res = messageMapper.updateByPrimaryKeySelective(record);
+		}
+	}
+	
+	
+	@Scheduled(fixedDelay = 10000)
+	public void batchGetResult() {
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+
+		int state = 1;
+		List<Message> messages = messageMapper.selectMessagesByState(state);
+
+		for (Message message : messages) {
+			
+			String content = message.getText();
+			String to = message.getReciever();
+			String formattedReservedTime = message.getReservedTime() !=null ? sdf.format(message.getReservedTime()): null ;
+//			String formattedReservedTime = sdf.format(reservedTime);
+
+			String type = message.getMessageType();
+			JSONObject result = MessageUtil.send(type, to, FROM, content, formattedReservedTime);
+			String groupId = (String) result.get("group_id");
+			logger.debug("result: ", result.toString());
+			
+			Message record = new Message();
+			record.setMessasgeSeq(message.getMessasgeSeq());
+			record.setGroupId(groupId);
+			record.setState(1);
+			
+			int res = messageMapper.updateByPrimaryKeySelective(record);
 		}
 	}
 
