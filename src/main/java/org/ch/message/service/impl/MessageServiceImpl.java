@@ -1,6 +1,7 @@
 package org.ch.message.service.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -53,7 +54,11 @@ public class MessageServiceImpl implements MessageService {
 			JsonObject noti = parser.parse(notification).getAsJsonObject();
 			JsonArray receivers = noti.has("msg") ? noti.getAsJsonArray("msg") : null;
 			int sendCount = 0;
-
+			
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.HOUR, 1);
+			Date reservedTime = cal.getTime();
+			
 			logger.debug("schedule date: " + schedule.getScheduleDate());
 			logger.debug("notifications : " + noti.toString());
 			logger.debug("receivers : " + receivers.toString());
@@ -83,12 +88,10 @@ public class MessageServiceImpl implements MessageService {
 				record.setSender(FROM);
 				record.setReciever(to);
 				record.setText(content);
-
+				
+				record.setReservedTime(reservedTime);
 				sendCount += messageMapper.insertSelective(record);
 
-				JSONObject result = MessageUtil.sendSms(to, FROM, content, null);
-
-//				System.out.println(result.toString());
 			}
 
 			logger.info("sendCount: " + sendCount);
@@ -121,16 +124,16 @@ public class MessageServiceImpl implements MessageService {
 				logger.debug("result: ", result.toString());
 				
 				record.setMessasgeSeq(message.getMessasgeSeq());
-				record.setState(1);
 				record.setGroupId(groupId);
 				
 			}catch (Exception e) {
 				
 				e.printStackTrace();
 				record.setMessasgeSeq(message.getMessasgeSeq());
-				record.setState(1);
+				
 				
 			} finally {
+				record.setState(1);
 				int res = messageMapper.updateByPrimaryKeySelective(record);	
 			}
 			
