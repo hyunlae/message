@@ -86,7 +86,7 @@ public class MessageServiceImpl implements MessageService {
 
 				sendCount += messageMapper.insertSelective(record);
 
-//				JSONObject result = MessageUtil.sendSms(to, FROM, content, null);
+				JSONObject result = MessageUtil.sendSms(to, FROM, content, null);
 
 //				System.out.println(result.toString());
 			}
@@ -114,12 +114,13 @@ public class MessageServiceImpl implements MessageService {
 
 			String type = message.getMessageType();
 			JSONObject result = MessageUtil.send(type, to, FROM, content, formattedReservedTime);
-			String groupId = (String) result.get("group_id");
+			String groupId = result.containsKey("success_count") && (int)result.get("success_count") == 1 ? (String) result.get("group_id"): null;
 			logger.debug("result: ", result.toString());
 			
 			Message record = new Message();
 			record.setMessasgeSeq(message.getMessasgeSeq());
 			record.setState(1);
+			record.setGroupId(groupId);
 			
 			int res = messageMapper.updateByPrimaryKeySelective(record);
 		}
