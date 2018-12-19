@@ -107,22 +107,33 @@ public class MessageServiceImpl implements MessageService {
 
 		for (Message message : messages) {
 			
-			String content = message.getText();
-			String to = message.getReciever();
-			String formattedReservedTime = message.getReservedTime() !=null ? sdf.format(message.getReservedTime()): null ;
-//			String formattedReservedTime = sdf.format(reservedTime);
-
-			String type = message.getMessageType();
-			JSONObject result = MessageUtil.send(type, to, FROM, content, formattedReservedTime);
-			String groupId = result.containsKey("success_count") && (int)result.get("success_count") == 1 ? (String) result.get("group_id"): null;
-			logger.debug("result: ", result.toString());
-			
 			Message record = new Message();
-			record.setMessasgeSeq(message.getMessasgeSeq());
-			record.setState(1);
-			record.setGroupId(groupId);
 			
-			int res = messageMapper.updateByPrimaryKeySelective(record);
+			try {
+				String content = message.getText();
+				String to = message.getReciever();
+				String formattedReservedTime = message.getReservedTime() !=null ? sdf.format(message.getReservedTime()): null ;
+	//			String formattedReservedTime = sdf.format(reservedTime);
+	
+				String type = message.getMessageType();
+				JSONObject result = MessageUtil.send(type, to, FROM, content, formattedReservedTime);
+				String groupId = result.containsKey("success_count") && (long)result.get("success_count") == 1 ? (String) result.get("group_id"): null;
+				logger.debug("result: ", result.toString());
+				
+				record.setMessasgeSeq(message.getMessasgeSeq());
+				record.setState(1);
+				record.setGroupId(groupId);
+				
+			}catch (Exception e) {
+				
+				e.printStackTrace();
+				record.setMessasgeSeq(message.getMessasgeSeq());
+				record.setState(1);
+				
+			} finally {
+				int res = messageMapper.updateByPrimaryKeySelective(record);	
+			}
+			
 		}
 	}
 	
