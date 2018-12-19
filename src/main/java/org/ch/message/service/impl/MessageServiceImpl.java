@@ -35,7 +35,7 @@ public class MessageServiceImpl implements MessageService {
 	@Autowired
 	private MessageMapper messageMapper;
 
-	@Scheduled(cron = "0 24 11 * * * ")
+	@Scheduled(cron = "0 35 11 * * * ")
 	@Override
 	public void scheduledSend() {
 
