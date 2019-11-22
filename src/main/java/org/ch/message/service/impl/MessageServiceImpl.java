@@ -15,6 +15,7 @@ import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -33,10 +34,14 @@ public class MessageServiceImpl implements MessageService {
 	@Autowired
 	private ScheduleMapper scheduleMapper;
 
+
 	@Autowired
 	private MessageMapper messageMapper;
 
-	@Scheduled(cron = "${job.cron.rate}")
+	@Value("${job.cron.rate}")
+	private String scheduledSendCron = "0 40 14 * * *";
+
+	@Scheduled(cron = scheduledSendCron)
 	@Override
 	public void scheduledSend() {
 
