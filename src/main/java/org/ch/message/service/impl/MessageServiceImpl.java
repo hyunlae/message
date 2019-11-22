@@ -39,7 +39,7 @@ public class MessageServiceImpl implements MessageService {
 	private MessageMapper messageMapper;
 
 	@Value("${job.cron.rate}")
-	private String scheduledSendCron = "0 40 14 * * *";
+	private String scheduledSendCron;
 
 	@Scheduled(cron = scheduledSendCron)
 	@Override
