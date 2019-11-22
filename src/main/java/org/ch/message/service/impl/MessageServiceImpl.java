@@ -42,6 +42,9 @@ public class MessageServiceImpl implements MessageService {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("MM월dd일(E)");
 
+		/**
+		 * 내일 일정을 가지고 와서, 오늘 미리 예약문자를 발생 시킨다.
+		 */
 		List<Schedule> schedules = scheduleMapper.selectSchedules(1);
 
 		for (Schedule schedule : schedules) {
@@ -100,6 +103,10 @@ public class MessageServiceImpl implements MessageService {
 
 	}
 
+	/**
+	 * 5초마다 메세지를 보낸다.
+	 * message 테이블에서 조회되는 문자를 보낸다.
+	 */
 	@Scheduled(fixedDelay = 5000)
 	public void batchSend() {
 
