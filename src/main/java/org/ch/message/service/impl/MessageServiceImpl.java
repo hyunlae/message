@@ -38,10 +38,10 @@ public class MessageServiceImpl implements MessageService {
 	@Autowired
 	private MessageMapper messageMapper;
 
-	@Value("${job.cron.rate}")
-	private String scheduledSendCron;
+//	@Value("${job.cron.rate}")
+//	private String scheduledSendCron;
 
-	@Scheduled(cron = scheduledSendCron)
+	@Scheduled(cron = "0 40 14 * * * ")
 	@Override
 	public void scheduledSend() {
 
