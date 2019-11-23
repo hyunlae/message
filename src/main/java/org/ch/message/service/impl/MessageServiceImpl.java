@@ -41,7 +41,7 @@ public class MessageServiceImpl implements MessageService {
 //	@Value("${job.cron.rate}")
 //	private String scheduledSendCron;
 
-	@Scheduled(cron = "0 40 14 * * * ")
+	@Scheduled(cron = "0 0 11 * * * ")
 	@Override
 	public void scheduledSend() {
 
