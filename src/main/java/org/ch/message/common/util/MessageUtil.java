@@ -36,7 +36,7 @@ public class MessageUtil {
 	    // 4 params(to, from, type, text) are mandatory. must be filled
 	    HashMap<String, String> params = new HashMap<String, String>();
 	    params.put("to", "01066965116");
-	    params.put("from", "01066965116");
+	    params.put("from", "01047344284");
 	    params.put("type", "SMS");
 	    params.put("text", text);
 //	    params.put("app_version", "test app 1.2"); // application name and version
