@@ -30,7 +30,8 @@ public class MessageServiceImpl implements MessageService {
 	private static final Logger logger = LoggerFactory.getLogger(MessageServiceImpl.class);
 
 //	private final static String FROM = "01066965116";
-	private final static String FROM = "01047344284";
+//	private final static String FROM = "01047344284";
+	private final static String FROM = "01072929259";
 
 	@Autowired
 	private ScheduleMapper scheduleMapper;
